@@ -78,7 +78,7 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.myapp.tls=true
-      - traefik.http.routers.myapp.rule=Host("myapi.docker.localhost")
+      - traefik.http.routers.myapp.rule=Host("localhost")
   traefik:
     image: "traefik:v2.4"
     container_name: "traefik"
@@ -87,6 +87,7 @@ services:
      - "traefik.http.routers.traefik=true"
     ports:
       # HTTPS / SSL port
+      - "80:80"
       - "443:443"
       # The Traefik Web UI port (enabled by api:insecure: true in traefik.yml)
       - "8080:8080"
