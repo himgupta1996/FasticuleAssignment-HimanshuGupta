@@ -3,8 +3,6 @@ FROM python:3.9-slim-bullseye
 WORKDIR /home
 COPY setup.py .
 COPY service/main.py .
-COPY localhost-cert/cert.pem .
-COPY localhost-cert/key.pem .
 
 RUN apt update && apt upgrade -y
 
