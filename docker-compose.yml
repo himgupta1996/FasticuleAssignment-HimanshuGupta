@@ -1,0 +1,99 @@
+# version: '3.9'
+# services:
+#   traefik:
+#       image: traefik:v2.6
+#       command:
+#         - --entrypoints.web.address=:80
+#         - --entrypoints.web-secure.address=:443
+#         - --providers.docker=true
+#       ports:
+#       - "80:80"
+#       - "443:443"
+#       volumes:
+#         - "/var/run/docker.sock:/var/run/docker.sock:ro"
+#       labels:
+#         - "traefik.http.routers.fastapi.rule=Host(`fastapi.localhost`)"
+#   fasticule:
+#     # Path to dockerfile.
+#     # '.' represents the current directory in which
+#     # docker-compose.yml is present.
+#     build: .
+#     expose:
+#       - 8001
+#     # ports:
+#     #   - "8001:8001"
+    
+
+# version: "3.9"
+# services:
+#   traefik:
+#     image: traefik:v2.6
+#     command:
+#       - --entrypoints.web.address=:80
+#       - --entrypoints.web-secure.address=:443 # Declares the web-secure entrypoint in Traefik
+#       - --providers.docker=true
+#     ports:
+#       - "80:80"
+#       - "443:443" # Docker sends requests on port 443 to Traefik on port 443
+#     volumes:
+#       - "/var/run/docker.sock:/var/run/docker.sock:ro"
+
+#   my-app:
+#     image: traefik/whoami:v1.7.1
+
+# version: '3.8'
+
+# services:
+#   traefik:
+#     image: traefik:v2.2
+#     command:
+#       - --entrypoints.web.address=:80
+#       - --entrypoints.web-secure.address=:443
+#       - --providers.docker=true
+#       - --providers.file.directory=/configuration/
+#       - --providers.file.watch=true
+#     ports:
+#       - "80:80"
+#       - "443:443"
+#     volumes:
+#       - "/var/run/docker.sock:/var/run/docker.sock:ro"
+#       - "./service/traefik/configuration/:/configuration/"
+#       - "./localhost-cert/:/localhost-cert/"
+#   web:
+#     build: .
+#     expose:
+#       - 5000
+#     labels:
+#       - "traefik.enable=true"
+#       - "traefik.http.routers.fastapi.rule=Host(`fastapi.localhost`)"
+#       - "traefik.http.routers.web.tls=true"
+
+version: '3.4'
+
+services:
+  mywebapi:
+    build: .
+    expose:
+      - 80
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.myapp.tls=true
+      - traefik.http.routers.myapp.rule=Host("myapi.docker.localhost")
+  traefik:
+    image: "traefik:v2.4"
+    container_name: "traefik"
+    labels:
+     - "traefik.enable=true"
+     - "traefik.http.routers.traefik=true"
+    ports:
+      # HTTPS / SSL port
+      - "443:443"
+      # The Traefik Web UI port (enabled by api:insecure: true in traefik.yml)
+      - "8080:8080"
+    volumes:
+     - ./service/traefik/traefik.yml:/etc/traefik/traefik.yml:ro
+     - ./service/traefik/config.yml:/etc/traefik/config.yml:ro
+     - ./localhost-cert:/etc/certs:ro
+     - /var/run/docker.sock:/var/run/docker.sock:ro
+
+      
