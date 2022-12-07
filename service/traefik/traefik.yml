@@ -21,7 +21,7 @@ log:
 
 entryPoints:
   http:
-    address: ":80"
+    address: ":8001"
     http:
       redirections:
         entryPoint:

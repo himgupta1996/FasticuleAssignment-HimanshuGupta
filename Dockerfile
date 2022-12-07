@@ -11,4 +11,4 @@ RUN apt update && apt upgrade -y
 RUN pip install --no-cache-dir --upgrade pip setuptools
 RUN pip install --no-cache-dir --upgrade -e .
 
-CMD uvicorn main:service --host 0.0.0.0 --port 80
+CMD uvicorn main:service --host 0.0.0.0 --port 8001

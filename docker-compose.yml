@@ -74,7 +74,7 @@ services:
   mywebapi:
     build: .
     expose:
-      - 80
+      - 8001
     labels:
       - traefik.enable=true
       - traefik.http.routers.myapp.tls=true
@@ -87,7 +87,7 @@ services:
      - "traefik.http.routers.traefik=true"
     ports:
       # HTTPS / SSL port
-      - "80:80"
+      - "8001:8001"
       - "443:443"
       # The Traefik Web UI port (enabled by api:insecure: true in traefik.yml)
       - "8080:8080"
